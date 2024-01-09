@@ -750,6 +750,8 @@ textarea.input {
   position: relative;
   background-color: #E4E7ED;
   z-index: -1;
+  width: 360px;
+  height: 240px;
 }
 
 .shop .shop-img>img {
@@ -2187,4 +2189,15 @@ textarea.input {
     float: none;
     margin-top: 10px;
   }
+}
+
+
+/* ---Config form default--- */
+.umbraco-forms-hidden {
+    display: none;
+}
+
+span.field-validation-error {
+    color: #df0909;
+    font-size: 13px;
 }

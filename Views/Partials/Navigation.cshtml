@@ -1,0 +1,53 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Routing
+@using Umbraco.Extensions
+
+@inject IPublishedValueFallback PublishedValueFallback
+@inject IPublishedUrlProvider PublishedUrlProvider
+
+@{
+    var selection = Model.Root().Children.Where(x => x.IsVisible(PublishedValueFallback)).ToArray();
+    var homePage = Umbraco.AssignedContentItem.AncestorOrSelf<HomePage>();
+    // href = "@homePage.Url()" || @homePage.Name
+    //var children = homePage?.Children?.Where(x => x.IsVisible()) ?? Enumerable.Empty<IPublishedContent>();
+    var children = homePage.MainNavigation;
+}
+@if (selection?.Length > 0)
+{
+    <nav id="navigation">
+    	<div class="container">
+    		<div id="responsive-nav">
+                @*  
+    			<ul class="main-nav nav navbar-nav">
+    			    <li >
+        			    <a href="@Model.Root().Url()">Home</a>
+    			    </li>
+
+                    @foreach (var item in selection)
+                    {
+                        <li class="@(item.IsAncestorOrSelf(Model) ? "active" : null)">
+                            <a href="@item.Url(PublishedUrlProvider)">@item.Name</a>
+                        </li>
+                    }
+        	    </ul>
+                *@
+                <ul class="main-nav nav navbar-nav">
+                    @if(children != null && children.Any())
+                    {
+                        foreach( var item in children)
+                        {
+                            <li class="nav-item">
+                                <a href="@item.Url" target="@item.Target">@item.Name</a>
+                            </li>
+                        }
+
+                       
+                    }
+                </ul>
+    		</div>
+    	</div>
+    </nav>
+}
+

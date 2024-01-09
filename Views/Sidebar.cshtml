@@ -1,0 +1,44 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Sidebar>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+@using Umbraco.Cms.Core.Models.PublishedContent;
+@using System.Collections.Generic;
+@using Umbraco.Cms.Core.Models
+@{
+	Layout = "Master.cshtml";
+}
+
+
+	<!-- Main container -->
+		<div class="container">
+			<!-- Latest blog posts -->
+		
+            @{
+            	var selection = Umbraco.Content(Guid.Parse("8468bf83-aff8-44ab-b345-ee9bac5638f1"))
+                .ChildrenOfType("sidebarItem")
+                .Where(x => x.IsVisible())
+                .OrderByDescending(x => x.CreateDate);
+            }
+            
+			<div class="row">
+				@foreach (var item in selection)
+				{
+					var image = item.Value<IPublishedContent>("images");
+					
+                    <!-- shop -->
+					<div class="col-md-4 col-xs-6">
+						<div class="shop">
+							<div class="shop-img">
+								<a href="@item.Url()" class="featured-link"></a>
+							</div>
+							<div class="shop-body">
+								<h3>@item.Value("title")<br>Collection</h3>
+								<a href="#" class="cta-btn">@item.Value("subTitle") <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						
+					</div>
+				}
+			</div>
+		</div>
